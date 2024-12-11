@@ -2,7 +2,7 @@ import React from "react";
 import './home.css'
 const Home = () => {
   return (
-    <div className="min-h-screen overflow-hidden flex items-center justify-center bg-gradient-to-r from-purple-500 via-pink-500 to-purple-600">
+    <div className="h-[calc(100vh-3.5rem)] overflow-hidden flex items-center justify-center bg-gradient-to-r from-purple-500 via-pink-500 to-purple-600">
       <div className="text-center">
         {/* Nexa SVG */}
         <svg
