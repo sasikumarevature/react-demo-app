@@ -1,10 +1,15 @@
 import './App.css';
-import Nav from './components/Navbar/navbar';
+import Badge from 'react-bootstrap/Badge';
+import Button from 'react-bootstrap/Button';
 
 function App() {
   return (
     <>
-      <Nav/>
+    <p>Test App</p>
+    <Button variant="primary">
+      Profile <Badge bg="secondary">9</Badge>
+      <span className="visually-hidden">unread messages</span>
+    </Button>
     </>
   );
 }
