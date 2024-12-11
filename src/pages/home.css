@@ -1,0 +1,24 @@
+.main-icon path {
+    fill: transparent;
+    stroke: #fff;
+    stroke-width: 0.1;
+    stroke-dasharray: 50;
+    stroke-dashoffset: 50;
+    animation: textAnimation 3s ease-in-out forwards; /* Added forwards to maintain final state */
+  }
+  
+  @keyframes textAnimation {
+    0% {
+      stroke-dashoffset: 50;
+      fill: transparent;
+    }
+    80% {
+      stroke-dashoffset: 5;
+      fill: transparent;
+    }
+    100% {
+      stroke-dashoffset: 0;
+      fill: #fff;
+    }
+  }
+  

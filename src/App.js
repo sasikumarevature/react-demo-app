@@ -1,22 +1,26 @@
-import { useEffect } from 'react';
-import './App.css';
-import Nav from './components/Navbar/navbar';
-import { useDispatch } from 'react-redux';
-import { setToken } from './redux/slices/authSlice';
+import React, { Suspense } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import NavComponent from './components/Navbar/navbar';
 
+// Lazy-load pages
+const Home = React.lazy(() => import('./pages/home'));
+const Competency = React.lazy(() => import('./pages/competency'));
+const Unit = React.lazy(() => import('./pages/unit'));
 
 function App() {
-  const dispatch = useDispatch();
-  useEffect(()=>{
-   let token = "testToken= from initaial load";
-   console.log(token)
-    dispatch(setToken(token));
-  }, [])
-
   return (
-    <>
-      <Nav/>
-    </>
+    <Router>
+      <NavComponent />
+      <Suspense fallback={<div>Loading...</div>}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/competency" element={<Competency />} />
+          <Route path="/unit" element={<Unit />} />
+          {/* Redirect unknown routes */}
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
+      </Suspense>
+    </Router>
   );
 }
 
