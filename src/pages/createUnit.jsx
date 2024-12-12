@@ -6,12 +6,12 @@ import "./createUnit.css";
 
 const CreateUnit = () => {
     const navigate = useNavigate();
-const [groupOptions, setGroupOptions] = useState([]); // State for storing group options
+const [groupOptions, setGroupOptions] = useState([]);
   useEffect(() => {
     const fetchCompetencyTypes = async () => {
       try {
-        const response = await get('/group'); // Fetching group data
-        setGroupOptions(response.data); // Updating state with fetched data
+        const response = await get('/group');
+        setGroupOptions(response.data);
       } catch (err) {
         console.error('Error fetching competency types:', err);
       }
@@ -28,13 +28,9 @@ const [groupOptions, setGroupOptions] = useState([]); // State for storing group
 
   const validateForm = () => {
     const newErrors = {};
-
-    // Validate required fields
     if (!unitName.trim()) newErrors.unitName = "Unit name is required.";
-    if (!groupName && !groupName.trim()) newErrors.groupName = "Group name is required.";
+    if (!groupName) newErrors.groupName = "Group name is required.";
     if (!unitDuration) newErrors.unitDuration = "Unit duration is required.";
-
-    // Validate modules and topics
     if (modules.some((module) => !module.trim())) {
       newErrors.modules = "All module names are required.";
     }
@@ -43,13 +39,11 @@ const [groupOptions, setGroupOptions] = useState([]); // State for storing group
     }
 
     setErrors(newErrors);
-    return Object.keys(newErrors).length === 0; // Return true if no errors
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleCreateUnit = async (e) => {
     e.preventDefault();
-
-    // Validate before submission
     if (!validateForm()) {
       return;
     }
@@ -95,7 +89,7 @@ const [groupOptions, setGroupOptions] = useState([]); // State for storing group
     };
 
     try {
-      const res = await post("https://qa-ms.revature.com/apigateway/nexa/unit", payload);
+      const res = await post("/unit", payload);
       navigate('/unit/view/'+res.data.id)
     } catch (error) {
       console.error("Error:", error);
@@ -140,37 +134,45 @@ const [groupOptions, setGroupOptions] = useState([]); // State for storing group
           {errors.unitName && <p className="error">{errors.unitName}</p>}
         </div>
         <div className="form-group"><label>Group Name:</label>
-<select
-  value={groupName.id || ""}  // Set the value to the `id` of the selected object
-  onChange={(e) => {
-    const selectedGroup = groupOptions.find(option => option.id === Number(e.target.value));  // Find the entire object based on the selected id
-    setGroupName(selectedGroup || {});  // Update state with the entire object
-    if (errors.groupName) setErrors((prev) => ({ ...prev, groupName: null }));
-  }}
->
-  <option value="" disabled>Select or Enter group name</option>
-  {groupOptions.map((option) => (
-    <option key={option.id} value={option.id}> {/* Set the `id` as the value */}
-      {option.name} {/* Display the `name` */}
-    </option>
-  ))}
-</select>
-
-{errors.groupName && <p className="error">{errors.groupName}</p>}
-</div>
+            <select
+            value={groupName.id || ""}
+            onChange={(e) => {
+                const selectedGroup = groupOptions.find(option => option.id === Number(e.target.value)); 
+                setGroupName(selectedGroup || {});
+                if (errors.groupName) setErrors((prev) => ({ ...prev, groupName: null }));
+            }}>
+            <option value="" disabled>Select or Enter group name</option>
+            {groupOptions.map((option) => (
+                <option key={option.id} value={option.id}> {}
+                {option.name} {}
+                </option>
+            ))}
+            </select>{errors.groupName && <p className="error">{errors.groupName}</p>}
+        </div>
 
         <div className="form-group">
           <label>Unit Duration (in days):</label>
           <input
-            type="number"
-            min="1"
-            placeholder="0"
-            value={unitDuration}
-            onChange={(e) => {
-              setUnitDuration(e.target.value);
-              if (errors.unitDuration) setErrors((prev) => ({ ...prev, unitDuration: null }));
-            }}
-          />
+    type="number"
+    min="1"
+    max="7"
+    placeholder="0"
+    value={unitDuration}
+    onChange={(e) => {
+      const inputValue = Number(e.target.value);
+      if (inputValue >= 1 && inputValue <= 7) {
+        setUnitDuration(inputValue);
+        if (errors.unitDuration) setErrors((prev) => ({ ...prev, unitDuration: null }));
+      } else if (inputValue === 0 || e.target.value === "") {
+        setUnitDuration("");
+      }
+    }}
+    onBlur={(e) => {
+      const inputValue = Number(e.target.value);
+      if (inputValue < 1) setUnitDuration(1);
+      if (inputValue > 7) setUnitDuration(7);
+    }}
+  />
           {errors.unitDuration && <p className="error">{errors.unitDuration}</p>}
         </div>
 
