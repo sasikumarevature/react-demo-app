@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Button } from 'react-bootstrap';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import useFetch from '../hooks/useFetch';
 
 const UnitPage = () => {
@@ -41,8 +41,7 @@ const UnitPage = () => {
       <div className="mb-4 d-flex justify-content-between">
         <Button onClick={handleGoBack} className="text-blue-500">Back</Button>
         <div className="d-flex gap-2">
-          <Button variant="secondary">Delete</Button>
-          <Button variant="primary">Edit</Button>
+          {/* <Button variant="secondary">Delete</Button> */}
         </div>
       </div>
       {/* Unit Information */}
