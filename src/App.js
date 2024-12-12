@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import NavComponent from './components/Navbar/navbar';
 import UnitPage from './pages/view-unit-page';
 import ViewUnitPage from './pages/view-unit-page';
+import ViewPage from './pages/ViewPage';
 
 // Lazy-load pages
 const Home = React.lazy(() => import('./pages/home'));
@@ -18,6 +19,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/competency" element={<Competency />} />
+          <Route path="view/:id" element={<ViewPage />} />
           <Route path="/unit" element={<Unit />} />
           <Route path="/unit/view/:unitId" element={<ViewUnitPage />} />
           {/* Redirect unknown routes */}

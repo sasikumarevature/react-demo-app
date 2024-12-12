@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
-
+import { useSelector } from 'react-redux';
 const axiosInstance = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL
 });
@@ -9,17 +9,18 @@ const useFetch = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [data, setData] = useState(null);
-
+  const token = useSelector((state) => state.auth.token);
+  const decodedToken = decodeURIComponent(token);  
   const request = async (url, options = {}) => {
     setLoading(true);
     setError(null);
-
+    
     try {
       const response = await axiosInstance({
         url,
         headers: {
           ...options.headers,
-          EncryptedToken: process.env.REACT_APP_ENCRYPTED_TOKEN
+          EncryptedToken: decodedToken
         },
         ...options,
       });
