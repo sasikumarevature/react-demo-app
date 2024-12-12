@@ -114,7 +114,7 @@ const [groupOptions, setGroupOptions] = useState([]);
   return (
     <div className="create-unit-container">
       <Link to="/unit">
-        <button className="bg-blue-500 w-24 text-white rounded-2xl py-1 px-2 text-base hover:scale-105">
+        <button className="bg-blue-500 w-24 text-white rounded-2xl py-1 px-2 text-base hover:scale-105 float-right">
           ← Back
         </button>
       </Link>
@@ -206,12 +206,12 @@ const [groupOptions, setGroupOptions] = useState([]);
             {errors.topics && <p className="error">{errors.topics}</p>}
           </div>
         </div>
-        <button
-          className="bg-blue-500 w-24 text-white rounded-2xl py-1 px-2 text-base hover:scale-105"
-          type="submit"
-        >
-          Create
-        </button>
+        <div className="flex items-center justify-center">
+            <button
+            className="bg-blue-500 w-24 text-white rounded-2xl py-1 px-2 text-base hover:scale-105"
+            type="submit">Create</button>
+        </div>
+
       </form>
     </div>
   );
