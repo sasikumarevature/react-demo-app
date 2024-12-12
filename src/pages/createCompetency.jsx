@@ -1,7 +1,12 @@
-const createCompetency= ()=>{
-    return(
-        <div>Hi</div>
-    )
-}
+import React from 'react';
+import { Link } from 'react-router-dom';
 
-export default createCompetency
+const createCompetency = () => {
+  return (
+    <Link to='/competency'>
+      <button>Back</button>
+    </Link>
+  );
+};
+
+export default createCompetency;
