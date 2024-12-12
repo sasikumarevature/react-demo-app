@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import { clearToken, setToken, selectIsLoggedIn } from "../../redux/slices/authSlice";
-import Button from "react-bootstrap/Button";
 import LoginModal from "../loginModal";
 
 const NavComponent = () => {
@@ -25,7 +24,7 @@ const NavComponent = () => {
   
 
   const handleLogin = () => {
-    const tokenFromEnv = process.env.REACT_APP_ENCRYPTED_TOKEN; // Secure token from environment
+    const tokenFromEnv = process.env.REACT_APP_ENCRYPTED_TOKEN;
     dispatch(setToken(tokenFromEnv));
     setShow(false);
   };
@@ -57,7 +56,7 @@ const NavComponent = () => {
         </div>
 
         {/* Menu Items */}
-        <ul className="w-full flex justify-end gap-3 items-center m-0">
+        <ul className="w-full flex justify-end gap-3 items-center m-0 p-0">
           {isLoggedIn && (
             <NavLink
               className={({ isActive }) =>
@@ -82,16 +81,16 @@ const NavComponent = () => {
 
           {/* Login Button */}
           {!isLoggedIn && (
-            <Button variant="success" onClick={toggleModal}>
+            <button className="bg-green-500 w-24 text-white rounded-2xl py-1 px-2 text-base hover:scale-105 hover:bg-green-600"  onClick={toggleModal}>
               Login
-            </Button>
+            </button>
           )}
 
           {/* Logout Button */}
           {isLoggedIn && (
-            <Button variant="danger" onClick={handleLogout}>
+            <button className="bg-red-400 w-24 text-white rounded-2xl py-1 px-2 text-base hover:scale-105 hover:bg-red-500" onClick={handleLogout}>
               Logout
-            </Button>
+            </button>
           )}
         </ul>
       </div>
