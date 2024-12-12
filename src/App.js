@@ -6,7 +6,7 @@ import NavComponent from './components/Navbar/navbar';
 const Home = React.lazy(() => import('./pages/home'));
 const Competency = React.lazy(() => import('./pages/competency'));
 const Unit = React.lazy(() => import('./pages/unit'));
-
+const CreateCompetency = React.lazy(() => import('./pages/createCompetency'));
 function App() {
   return (
     <Router>
@@ -16,6 +16,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/competency" element={<Competency />} />
           <Route path="/unit" element={<Unit />} />
+          <Route path="/create-competency" element={<CreateCompetency />} />
           {/* Redirect unknown routes */}
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
