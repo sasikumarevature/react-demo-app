@@ -25,7 +25,8 @@ const NavComponent = () => {
 
   const handleLogin = () => {
     const tokenFromEnv = process.env.REACT_APP_ENCRYPTED_TOKEN;
-    dispatch(setToken(tokenFromEnv));
+    const encodedToken = encodeURIComponent(tokenFromEnv);
+    dispatch(setToken(encodedToken));
     setShow(false);
   };
 
