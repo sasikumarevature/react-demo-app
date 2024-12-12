@@ -18,7 +18,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/competency" element={<Competency />} />
           <Route path="/unit" element={<Unit />} />
-          <Route path="/unit/view/190" element={<ViewUnitPage />} />
+          <Route path="/unit/view/:unitId" element={<ViewUnitPage />} />
           {/* Redirect unknown routes */}
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
