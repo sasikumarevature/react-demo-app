@@ -68,3 +68,13 @@
   .view-button:hover {
     background-color: #003c99;
   }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-top: 28px;
+    margin-right: 79px;
+    margin-left: 88px;
+  }

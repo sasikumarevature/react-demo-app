@@ -288,7 +288,7 @@ const filteredUnits = Array.isArray(units)
               </InputGroup>
             </Col>
             <Col md={2} className='text-end'>
-              <Button variant='primary'>Create New Units</Button>
+              <Link to = "/unit/create"><Button variant='primary' className="bg-blue-500 text-white rounded-2xl py-1 px-2 text-base hover:scale-105 float-right">Create Unit</Button></Link>
             </Col>
           </Row>
           <Row>
