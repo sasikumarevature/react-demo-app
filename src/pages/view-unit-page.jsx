@@ -104,35 +104,43 @@ const UnitPage = () => {
       </div>
       <div className="card shadow-lg bg-gradient mb-4">
         <div className="card-body">
-          <div className="d-flex">
-            {/* Modules Column */}
-            <div className="w-1/2 text-xl">
-              <h6 className="text-blue-500">Modules</h6>
-              {unitData?.unitModules?.length > 0 ? (
-                <ul className="list-unstyled">
-                  {unitData.unitModules.map((module) => (
-                    <li key={module.id} className="py-1">{module.moduleName}</li>
-                  ))}
-                </ul>
-              ) : (
-                <span className="text-gray-500 font-italic">No data available</span>
-              )}
-            </div>
-            {/* Topics Column */}
-            <div className="w-1/2 text-xl">
-              <h6 className="text-blue-500">Topics</h6>
-              {unitData?.unitModules?.length > 0 ? (
-                <ul className="list-unstyled">
-                  {unitData.unitModules.flatMap((module) =>
-                    module.unitModuleTopics.map((topic) => (
-                      <li key={topic.id} className="py-1">{topic.topicName}</li>
-                    ))
-                  )}
-                </ul>
-              ) : (
-                <span className="text-gray-500 font-italic">No data available</span>
-              )}
-            </div>
+          <div className="w-full max-w-7xl mx-auto px-4"> {/* Increase width with max-w-4xl and center the content */}
+            {unitData?.unitModules?.length > 0 ? (
+              <div className="d-flex flex-column">
+                {/* Headers for Modules and Topics */}
+                <div className="d-flex py-2">
+                  <div className="w-1/2">
+                    <h6 className="text-blue-500">Modules</h6>
+                  </div>
+                  <div className="w-1/2">
+                    <h6 className="text-blue-500">Topics</h6>
+                  </div>
+                </div>
+                {/* Iterate over Modules and Topics */}
+                {unitData?.unitModules?.map((module) => (
+                  <div key={module.id} className="d-flex py-2">
+                    {/* Module Name */}
+                    <div className="w-1/2">
+                      <span>{module?.moduleName}</span>
+                    </div>
+                    {/* Topics for the Module */}
+                    <div className="w-1/2">
+                      {module?.unitModuleTopics?.length > 0 ? (
+                        <ul className="list-unstyled">
+                          {module?.unitModuleTopics?.map((topic) => (
+                            <li key={topic?.id} className="mb-2">{topic?.topicName}</li> // Add margin-bottom for line space
+                          ))}
+                        </ul>
+                      ) : (
+                        <span className="text-gray-500 font-italic">No topics available</span>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <span className="text-gray-500 font-italic">No data available</span>
+            )}
           </div>
         </div>
       </div>
