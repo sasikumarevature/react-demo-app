@@ -1,11 +1,61 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import useFetch from '../hooks/useFetch'
+import './card.css'; 
+import { Link } from 'react-router-dom';
 
-const unit = () => {
-  return (
-    <div>
-      <h1>Unit</h1>
-    </div>
-  )
-}
+const Unit = () => {
+  const { data, loading, error, post } = useFetch();
 
-export default unit
+useEffect(()=>{
+  const data ={
+    name:"",
+    page:1,
+    selectedCompetencyIds:[],
+    size:12
+  }
+  const fetchData = async () => {
+    try {
+      await post('https://qa-ms.revature.com/apigateway/nexa/unit/filter?isTemplatesRequired=false',data);
+    } catch (err) {
+      console.error('Error fetching data:', err);
+    }
+  };
+  fetchData();
+},[]);
+
+if (loading) return <p>Loading...</p>;
+if (error) return <p>Error: {error}</p>;
+
+return (
+  <>
+  <div className='header'>
+  <h1>Unit</h1>
+  <Link to="/unit/create"><button className="bg-blue-500 w-24 text-white rounded-2xl py-1 px-2 text-base hover:scale-105">
+          Create Unit
+        </button></Link>
+ </div>
+  <div className="card-container">
+    {data?.data?.map((unit) => (
+      <div key={unit.id} className="card">
+        <div className="card-header">
+          <h2>{unit.name}</h2>
+          <span className="duration-badge">{unit.duration} day(s)</span>
+        </div>
+        <div className="card-body">
+          <div className="tags">
+            {unit.unitTags?.map((tag) => (
+              <span key={tag.id} className="tag">
+                {tag.name}
+              </span>
+            ))}
+          </div>
+          {/* <button className="view-button"></button> */}
+        </div>
+      </div>
+    ))}
+  </div>
+  </>
+);
+};
+
+export default Unit
