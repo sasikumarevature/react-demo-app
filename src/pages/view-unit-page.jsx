@@ -91,7 +91,7 @@ const UnitPage = () => {
           <div className="font-semibold text-xl w-25">Content URL:</div>
           <div className="w-75">
             <div className="text-gray-500 text-xl">
-              {unitData?.unitTags?.length > 0 ? 'Available' : 'Not available'}
+              {unitData?.unitTags?.length > 0 && unitData?.repoUrl ? unitData?.repoUrl : 'Not available'}
             </div>
           </div>
         </div>
