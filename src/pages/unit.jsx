@@ -29,7 +29,7 @@ if (error) return <p>Error: {error}</p>;
 return (
   <>
   <div className='header'>
-  <h1>Unit</h1>
+  <h1 className='text-3xl'>All Units</h1>
   <Link to="/unit/create"><button className="bg-blue-500 w-24 text-white rounded-2xl py-1 px-2 text-base hover:scale-105">
           Create Unit
         </button></Link>
