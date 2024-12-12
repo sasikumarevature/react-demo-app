@@ -8,6 +8,7 @@ import ViewUnitPage from './pages/view-unit-page';
 const Home = React.lazy(() => import('./pages/home'));
 const Competency = React.lazy(() => import('./pages/competency'));
 const Unit = React.lazy(() => import('./pages/unit'));
+const CreateUnit = React.lazy(() => import('./pages/createUnit'));
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/unit/view/:unitId" element={<ViewUnitPage />} />
           {/* Redirect unknown routes */}
           <Route path="*" element={<Navigate to="/" />} />
+          <Route path="/unit/create" element={<CreateUnit />} />
         </Routes>
       </Suspense>
     </Router>
