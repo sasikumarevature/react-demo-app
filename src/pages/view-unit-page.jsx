@@ -28,7 +28,7 @@ const UnitPage = () => {
     fetchUnitData();
   }, [unitId]);
   const handleGoBack = () => {
-    navigate(-1);
+    navigate('/unit');
   };
   if (loading) {
     return <div>Loading...</div>;
