@@ -1,6 +1,7 @@
 import React , {useEffect} from 'react'
 import { Link } from 'react-router-dom';
 import useFetch from '../hooks/useFetch';
+import { Link } from 'react-router-dom';
 import './competencies.css'
 const Competency = () => {
   const { data, loading, error, post } = useFetch();
@@ -40,6 +41,9 @@ const Competency = () => {
             <p style={{ color: competency.isDeleted ? '#f44336' : '#4CAF50' }}>
               <strong>Status:</strong> {competency.isDeleted ? 'Deleted' : 'Active'}
             </p>
+            <Link to={`/view/${competency.id}`}>
+  <button className="btn btn-primary">View</button>
+</Link>
           </div>
         </div>
       ))}
