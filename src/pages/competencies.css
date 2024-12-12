@@ -68,3 +68,7 @@
   .view-button:hover {
     background-color: #003c99;
   }
+
+  .viewIcon{
+    bottom : 0
+  }
