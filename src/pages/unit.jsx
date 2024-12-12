@@ -9,7 +9,7 @@ const Unit = () => {
 useEffect(()=>{
   const data ={
     name:"",
-    page:1,
+    page:2,
     selectedCompetencyIds:[],
     size:12
   }
@@ -36,7 +36,7 @@ return (
  </div>
   <div className="card-container">
     {data?.data?.map((unit) => (
-      <div key={unit.id} className="card">
+      <div key={unit.id} className="card hover:scale-105">
         <div className="card-header">
           <h2>{unit.name}</h2>
           <span className="duration-badge">{unit.duration} day(s)</span>
@@ -49,7 +49,8 @@ return (
               </span>
             ))}
           </div>
-          {/* <button className="view-button"></button> */}
+         
+          <Link to={`/unit/view/${unit.id}`}> <button className="view-button">view</button></Link>
         </div>
       </div>
     ))}

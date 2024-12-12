@@ -63,4 +63,20 @@
     margin-right: 79px;
     margin-left: 88px;
   }
+
+    .view-button {
+    background-color: #7da2d6;
+    color: black;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border: #003c99;
+  }
+ 
+  .view-button:hover {
+    background-color: #003c99;
+  }
   
