@@ -1,7 +1,6 @@
 import React , {useEffect} from 'react'
 import { Link } from 'react-router-dom';
 import useFetch from '../hooks/useFetch';
-import { Link } from 'react-router-dom';
 import './competencies.css'
 const Competency = () => {
   const { data, loading, error, post } = useFetch();
