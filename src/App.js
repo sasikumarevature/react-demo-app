@@ -1,6 +1,8 @@
 import React, { Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import NavComponent from './components/Navbar/navbar';
+import UnitPage from './pages/view-unit-page';
+import ViewUnitPage from './pages/view-unit-page';
 
 // Lazy-load pages
 const Home = React.lazy(() => import('./pages/home'));
@@ -16,6 +18,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/competency" element={<Competency />} />
           <Route path="/unit" element={<Unit />} />
+          <Route path="/unit/view/190" element={<ViewUnitPage />} />
           {/* Redirect unknown routes */}
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
