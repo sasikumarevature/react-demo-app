@@ -1,6 +1,6 @@
 import React , {useEffect} from 'react'
-import useFetch from '../hooks/useFetch';
 import { Link } from 'react-router-dom';
+import useFetch from '../hooks/useFetch';
 import './competencies.css'
 const Competency = () => {
   const { data, loading, error, post } = useFetch();
@@ -26,6 +26,9 @@ const Competency = () => {
   if (error) return <p>Error: {error}</p>;
   return (
     <div className="card-container">
+      <Link to="/create-competency"><button className="bg-blue-500 w-24 text-white rounded-2xl py-1 px-2 text-base hover:scale-105 hover:bg-green-600">
+              Create Competency
+            </button></Link>
       {data?.data?.map((competency) => (
         <div key={competency.id} className="card">
           <div className="card-header">
@@ -44,6 +47,7 @@ const Competency = () => {
         </div>
       ))}
     </div>
+    
   );
 }
 

@@ -1,8 +1,9 @@
-import { useState } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import { useState } from 'react';
+
 const axiosInstance = axios.create({
-  baseURL: process.env.REACT_APP_BASE_URL
+  baseURL: process.env.REACT_APP_BASE_URL,
 });
 
 const useFetch = () => {
