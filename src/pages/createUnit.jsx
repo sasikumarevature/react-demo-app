@@ -114,8 +114,8 @@ const [groupOptions, setGroupOptions] = useState([]);
   return (
     <div className="create-unit-container">
       <Link to="/unit">
-        <button className="bg-blue-500 w-24 text-white rounded-2xl py-1 px-2 text-base hover:scale-105 float-right">
-          ← Back
+        <button title="Back" className="bg-blue-500 w-24 text-white rounded-2xl py-1 px-2 text-base hover:scale-105 float-right">
+          Back
         </button>
       </Link>
       <h1>Create a Unit</h1>
@@ -141,7 +141,7 @@ const [groupOptions, setGroupOptions] = useState([]);
                 setGroupName(selectedGroup || {});
                 if (errors.groupName) setErrors((prev) => ({ ...prev, groupName: null }));
             }}>
-            <option value="" disabled>Select or Enter group name</option>
+            <option value="" disabled>Select Group Name</option>
             {groupOptions.map((option) => (
                 <option key={option.id} value={option.id}> {}
                 {option.name} {}
