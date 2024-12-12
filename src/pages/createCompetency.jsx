@@ -11,30 +11,8 @@ import {
 import { Link } from 'react-router-dom';
 import UnitCard from '../components/UnitCard';
 import useFetch from '../hooks/useFetch';
+import { useNavigate } from 'react-router-dom';
 
-const unitData = [
-  { id: 1, name: 'JavaScript_', duration: '4 day(s)' },
-  {
-    id: 2,
-    name: 'ABD Unit - Trainer Nexa',
-    duration: '2 day(s)',
-    description: 'Core java concepts',
-  },
-  { id: 3, name: 'Regression-Unit-Test', duration: '1 day(s)' },
-  { id: 4, name: 'LargeName LargeName...', duration: '7 day(s)' },
-  { id: 5, name: 'Rest', duration: '1 day(s)', description: 'REST' },
-  { id: 6, name: 'JDBC', duration: '1 day(s)' },
-  {
-    id: 7,
-    name: 'Git Fundamentals',
-    duration: '1 day(s)',
-    description: 'Git Fundamentals',
-  },
-  { id: 8, name: 'Manual Unit 101', duration: '1 day(s)' },
-  { id: 9, name: 'Angular Unit - 03', duration: '3 day(s)' },
-  { id: 10, name: 'Angular Unit - 02', duration: '2 day(s)' },
-  { id: 11, name: 'Angular Unit - 01', duration: '1 day(s)' },
-];
 const CreateCompetency = () => {
   const { data, loading, error, get, post } = useFetch();
   const [formData, setFormData] = useState({
@@ -46,14 +24,10 @@ const CreateCompetency = () => {
 
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false); // To handle loading state
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-    setErrors({ ...errors, [name]: '' });
-  };
-
   const [units, setUnits] = useState([]);
+  const [selectedUnits, setSelectedUnits] = useState([]);
+  const [searchTerm, setSearchTerm] = useState(''); 
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCompetencyTypes = async () => {
@@ -68,7 +42,6 @@ const CreateCompetency = () => {
     fetchUnits();
   }, []);
 
-  // Post request to fetch units
   const fetchUnits = async () => {
     const payload = {
       name: '',
@@ -82,10 +55,16 @@ const CreateCompetency = () => {
         '/unit/filter?isTemplatesRequired=true',
         payload
       );
-      setUnits(response);
+      setUnits(response.data || []);
     } catch (err) {
       console.error('Error fetching units:', err);
     }
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+    setErrors({ ...errors, [name]: '' });
   };
 
   const handleSubmit = async (e) => {
@@ -102,30 +81,31 @@ const CreateCompetency = () => {
       setErrors(newErrors);
       return;
     }
-    // Prepare API payload
     const payload = {
       isSelected: false,
       isDeleted: false,
       name: formData.competencyName,
       noOfWeeks: formData.competencyDuration,
       competencyTypeName: formData.competencyType,
-      units: [
-        {
-          id: 188,
-          name: 'nan',
+      units: selectedUnits.map((unitId, index) => {
+        const unit = units.find((u) => u.id === unitId);
+        return {
+          id: unit.id,
+          name: unit.name,
           isDeleted: false,
-          duration: 5,
+          duration: unit.duration,
           isSelected: true,
-          displayOrder: 1,
-        },
-      ],
-      competencyTypeId: formData.competencyType === 'Foundation' ? 1 : 2, // Example mapping
+          displayOrder: index + 1,
+        };
+      }),
+      competencyTypeId: formData.competencyType === 'Foundation' ? 1 : 2, 
       competencyType: null,
     };
     try {
-      const response = await post('/competency', payload); // POST request using useFetch
+      const response = await post('/competency', payload); 
       console.log('API Response:', response);
       alert('Competency created successfully!');
+      navigate('/competency');
       handleReset(); // Reset form on success
     } catch (err) {
       console.error('Error during API call:', err);
@@ -141,10 +121,16 @@ const CreateCompetency = () => {
       description: '',
     });
     setErrors({});
+    setSelectedUnits([]);
   };
 
-  const [selectedUnits, setSelectedUnits] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
+
+const filteredUnits = Array.isArray(units)
+  ? units.filter((unit) =>
+      unit.name.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+  : [];
+
 
   const handleSelect = (unitId) => {
     setSelectedUnits((prev) =>
@@ -153,12 +139,7 @@ const CreateCompetency = () => {
         : [...prev, unitId]
     );
   };
-
-  const [data11] = useState(unitData);
-
-  const filteredUnits = data11.filter((unit) =>
-    unit.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+ 
 
   return (
     <div style={{ padding: '20px', maxWidth: '800px', margin: '0 auto' }}>
@@ -280,35 +261,6 @@ const CreateCompetency = () => {
           </div>
         </div>
         <div>
-          <button
-            type='submit'
-            style={{
-              padding: '10px 20px',
-              backgroundColor: isSubmitting ? '#6c757d' : '#007BFF',
-              color: '#fff',
-              border: 'none',
-              borderRadius: '5px',
-              cursor: isSubmitting ? 'not-allowed' : 'pointer',
-              marginRight: '10px',
-            }}
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? 'Submitting...' : 'Create'}
-          </button>
-          <button
-            type='button'
-            onClick={handleReset}
-            style={{
-              padding: '10px 20px',
-              backgroundColor: '#6c757d',
-              color: '#fff',
-              border: 'none',
-              borderRadius: '5px',
-              cursor: 'pointer',
-            }}
-          >
-            Reset
-          </button>
         </div>
         <Container>
           <h5>Add units</h5>
@@ -350,7 +302,6 @@ const CreateCompetency = () => {
                 >
                   <UnitCard
                     name={unit.name}
-                    description={unit.description || 'No description available'}
                     duration={unit.duration}
                   />
                 </Card>
@@ -360,20 +311,35 @@ const CreateCompetency = () => {
         </Container>
 
         <br />
-
-        <button
-          type='submit'
-          style={{
-            padding: '10px 20px',
-            backgroundColor: '#007BFF',
-            color: '#fff',
-            border: 'none',
-            borderRadius: '5px',
-            cursor: 'pointer',
-          }}
-        >
-          Submit
-        </button>
+                  <button
+            type='submit'
+            style={{
+              padding: '10px 20px',
+              backgroundColor: isSubmitting ? '#6c757d' : '#007BFF',
+              color: '#fff',
+              border: 'none',
+              borderRadius: '5px',
+              cursor: isSubmitting ? 'not-allowed' : 'pointer',
+              marginRight: '10px',
+            }}
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? 'Submitting...' : 'Create'}
+          </button>
+          <button
+            type='button'
+            onClick={handleReset}
+            style={{
+              padding: '10px 20px',
+              backgroundColor: '#6c757d',
+              color: '#fff',
+              border: 'none',
+              borderRadius: '5px',
+              cursor: 'pointer',
+            }}
+          >
+            Reset
+          </button>
       </form>
     </div>
   );
