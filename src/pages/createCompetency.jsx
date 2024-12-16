@@ -14,7 +14,7 @@ import useFetch from '../hooks/useFetch';
 import { useNavigate } from 'react-router-dom';
 
 const CreateCompetency = () => {
-  const { data, loading, error, get, post } = useFetch();
+  const { get, post } = useFetch();
   const [formData, setFormData] = useState({
     competencyName: '',
     competencyType: 'Foundation',

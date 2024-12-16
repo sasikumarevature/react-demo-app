@@ -1,30 +1,30 @@
 import React, { useState, useEffect } from "react";
 import useFetch from "../hooks/useFetch";
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import "./createUnit.css";
 
 const CreateUnit = () => {
-    const navigate = useNavigate();
-const [groupOptions, setGroupOptions] = useState([]);
+  const navigate = useNavigate();
+  const [groupOptions, setGroupOptions] = useState([]);
   useEffect(() => {
     const fetchCompetencyTypes = async () => {
       try {
-        const response = await get('/group');
+        const response = await get("/group");
         setGroupOptions(response.data);
       } catch (err) {
-        console.error('Error fetching competency types:', err);
+        console.error("Error fetching competency types:", err);
       }
     };
     fetchCompetencyTypes();
-  }, []); 
+  }, []);
   const [unitName, setUnitName] = useState("");
   const [groupName, setGroupName] = useState({});
   const [unitDuration, setUnitDuration] = useState("");
   const [modules, setModules] = useState([""]);
   const [topics, setTopics] = useState([""]);
   const [errors, setErrors] = useState({});
-  const { loading, error, post, get } = useFetch();
+  const { post, get } = useFetch();
 
   const validateForm = () => {
     const newErrors = {};
@@ -85,12 +85,12 @@ const [groupOptions, setGroupOptions] = useState([]);
       isUnitHasDependency: false,
       isUnitHasDependencyWithCompetency: false,
       unMappedUnitTagIds: [],
-      unitTags:[groupName]
+      unitTags: [groupName],
     };
 
     try {
       const res = await post("/unit", payload);
-      navigate('/unit/view/'+res.data.id)
+      navigate("/unit/view/" + res.data.id);
     } catch (error) {
       console.error("Error:", error);
       alert("An error occurred. Please try again later.");
@@ -114,7 +114,10 @@ const [groupOptions, setGroupOptions] = useState([]);
   return (
     <div className="create-unit-container">
       <Link to="/unit">
-        <button title="Back" className="bg-blue-500 w-24 text-white rounded-2xl py-1 px-2 text-base hover:scale-105 float-right">
+        <button
+          title="Back"
+          className="bg-blue-500 w-24 text-white rounded-2xl py-1 px-2 text-base hover:scale-105 float-right"
+        >
           Back
         </button>
       </Link>
@@ -128,52 +131,66 @@ const [groupOptions, setGroupOptions] = useState([]);
             value={unitName}
             onChange={(e) => {
               setUnitName(e.target.value);
-              if (errors.unitName) setErrors((prev) => ({ ...prev, unitName: null }));
+              if (errors.unitName)
+                setErrors((prev) => ({ ...prev, unitName: null }));
             }}
           />
           {errors.unitName && <p className="error">{errors.unitName}</p>}
         </div>
-        <div className="form-group"><label>Group Name:</label>
-            <select
+        <div className="form-group">
+          <label>Group Name:</label>
+          <select
             value={groupName.id || ""}
             onChange={(e) => {
-                const selectedGroup = groupOptions.find(option => option.id === Number(e.target.value)); 
-                setGroupName(selectedGroup || {});
-                if (errors.groupName) setErrors((prev) => ({ ...prev, groupName: null }));
-            }}>
-            <option value="" disabled>Select Group Name</option>
+              const selectedGroup = groupOptions.find(
+                (option) => option.id === Number(e.target.value)
+              );
+              setGroupName(selectedGroup || {});
+              if (errors.groupName)
+                setErrors((prev) => ({ ...prev, groupName: null }));
+            }}
+          >
+            <option value="" disabled>
+              Select Group Name
+            </option>
             {groupOptions.map((option) => (
-                <option key={option.id} value={option.id}> {}
+              <option key={option.id} value={option.id}>
+                {" "}
+                {}
                 {option.name} {}
-                </option>
+              </option>
             ))}
-            </select>{errors.groupName && <p className="error">{errors.groupName}</p>}
+          </select>
+          {errors.groupName && <p className="error">{errors.groupName}</p>}
         </div>
 
         <div className="form-group">
           <label>Unit Duration (in days):</label>
           <input
-    type="number"
-    min="1"
-    max="7"
-    placeholder="0"
-    value={unitDuration}
-    onChange={(e) => {
-      const inputValue = Number(e.target.value);
-      if (inputValue >= 1 && inputValue <= 7) {
-        setUnitDuration(inputValue);
-        if (errors.unitDuration) setErrors((prev) => ({ ...prev, unitDuration: null }));
-      } else if (inputValue === 0 || e.target.value === "") {
-        setUnitDuration("");
-      }
-    }}
-    onBlur={(e) => {
-      const inputValue = Number(e.target.value);
-      if (inputValue < 1) setUnitDuration(1);
-      if (inputValue > 7) setUnitDuration(7);
-    }}
-  />
-          {errors.unitDuration && <p className="error">{errors.unitDuration}</p>}
+            type="number"
+            min="1"
+            max="7"
+            placeholder="0"
+            value={unitDuration}
+            onChange={(e) => {
+              const inputValue = Number(e.target.value);
+              if (inputValue >= 1 && inputValue <= 7) {
+                setUnitDuration(inputValue);
+                if (errors.unitDuration)
+                  setErrors((prev) => ({ ...prev, unitDuration: null }));
+              } else if (inputValue === 0 || e.target.value === "") {
+                setUnitDuration("");
+              }
+            }}
+            onBlur={(e) => {
+              const inputValue = Number(e.target.value);
+              if (inputValue < 1) setUnitDuration(1);
+              if (inputValue > 7) setUnitDuration(7);
+            }}
+          />
+          {errors.unitDuration && (
+            <p className="error">{errors.unitDuration}</p>
+          )}
         </div>
 
         <div className="modules-topics">
@@ -188,7 +205,9 @@ const [groupOptions, setGroupOptions] = useState([]);
                 onChange={(e) => handleModuleChange(index, e.target.value)}
               />
             ))}
-            <button type="button" onClick={() => setModules([...modules, ""])}>+ Add Module</button>
+            <button type="button" onClick={() => setModules([...modules, ""])}>
+              + Add Module
+            </button>
             {errors.modules && <p className="error">{errors.modules}</p>}
           </div>
           <div className="topics">
@@ -202,16 +221,20 @@ const [groupOptions, setGroupOptions] = useState([]);
                 onChange={(e) => handleTopicChange(index, e.target.value)}
               />
             ))}
-            <button type="button" onClick={() => setTopics([...topics, ""])}>+ Add Topic</button>
+            <button type="button" onClick={() => setTopics([...topics, ""])}>
+              + Add Topic
+            </button>
             {errors.topics && <p className="error">{errors.topics}</p>}
           </div>
         </div>
         <div className="flex items-center justify-center">
-            <button
+          <button
             className="bg-blue-500 w-24 text-white rounded-2xl py-1 px-2 text-base hover:scale-105"
-            type="submit">Create</button>
+            type="submit"
+          >
+            Create
+          </button>
         </div>
-
       </form>
     </div>
   );

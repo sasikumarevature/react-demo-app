@@ -15,7 +15,7 @@ useEffect(()=>{
   }
   const fetchData = async () => {
     try {
-      await post('https://qa-ms.revature.com/apigateway/nexa/unit/filter?isTemplatesRequired=false',data);
+      await post('/unit/filter?isTemplatesRequired=false',data);
     } catch (err) {
       console.error('Error fetching data:', err);
     }

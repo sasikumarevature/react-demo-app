@@ -1,7 +1,6 @@
 import React, { Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import NavComponent from './components/Navbar/navbar';
-import UnitPage from './pages/view-unit-page';
 import ViewUnitPage from './pages/view-unit-page';
 import ViewPage from './pages/ViewPage';
 

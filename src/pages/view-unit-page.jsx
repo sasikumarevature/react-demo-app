@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Button } from 'react-bootstrap';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import useFetch from '../hooks/useFetch';
 
 const UnitPage = () => {
@@ -15,7 +15,7 @@ const UnitPage = () => {
   useEffect(() => {
     const fetchUnitData = async () => {
       try {
-        const response = await get(`https://qa-ms.revature.com/apigateway/nexa/unit/${unitId}`);
+        const response = await get(`/nexa/unit/${unitId}`);
         if (response && response.data) {
           setUnitData(response.data);
         }
