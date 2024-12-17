@@ -73,10 +73,18 @@ const CreateCompetency = () => {
     const newErrors = {};
     if (!formData.competencyName.trim()) {
       newErrors.competencyName = 'Please provide a name for competency';
-    }
+    } else if (formData.competencyName !== formData.competencyName.trim()) {
+        newErrors.competencyName = 'Name cannot have leading or trailing spaces.';
+      }
     if (!formData.competencyDuration.trim()) {
       newErrors.competencyDuration = 'Weeks is required.';
     }
+    else if (isNaN(formData.competencyDuration) || formData.competencyDuration < 1 || formData.competencyDuration > 52) {
+        newErrors.competencyDuration = 'Duration must be between 1 and 52 weeks.';
+      }
+      if (selectedUnits.length === 0) {
+        newErrors.selectedUnits = 'At least one unit must be selected.';
+      }
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
@@ -142,7 +150,7 @@ const filteredUnits = Array.isArray(units)
  
 
   return (
-    <div style={{ padding: '20px', maxWidth: '800px', margin: '0 auto' }}>
+    <div style={{ padding: '20px', maxWidth: '86%', margin: '0 auto' }}>
       <Link to='/competency'>
         <button
           style={{
@@ -158,17 +166,11 @@ const filteredUnits = Array.isArray(units)
       </Link>
       <h1>Create a Competency</h1>
       <form onSubmit={handleSubmit}>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            gap: '20px',
-          }}
-        >
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }} >
           <div style={{ flex: '1' }}>
-            <div style={{ marginBottom: '20px' }}>
-              <label>
-                Competency name:
+            <div style={{ display: 'flex', alignItems: 'center', marginTop: '20px', marginBottom: '20px' }}>
+              <label style={{ flex: '0.3', fontWeight: 'bold' }}>
+                Competency name:  </label>
                 <input
                   type='text'
                   name='competencyName'
@@ -176,43 +178,41 @@ const filteredUnits = Array.isArray(units)
                   onChange={handleInputChange}
                   placeholder='Type name'
                   style={{
-                    display: 'block',
-                    width: '100%',
+                    flex: '0.7',
                     padding: '8px',
-                    marginTop: '5px',
+                    maxWidth: '300px',
+                    width: '50%',
                   }}
                 />
-              </label>
-              {errors.competencyName && (
-                <p style={{ color: 'red', marginTop: '5px' }}>
+            </div>
+            {errors.competencyName && (
+                <p style={{ color: 'red', marginTop: '-10px', marginLeft: '203px' }}>
                   {errors.competencyName}
                 </p>
               )}
-            </div>
 
-            <div style={{ marginBottom: '20px' }}>
-              <label>
-                Competency type:
+            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
+              <label style={{ flex: '0.3', fontWeight: 'bold' }}> 
+                Competency type:  </label>
                 <select
                   name='competencyType'
                   value={formData.competencyType}
                   onChange={handleInputChange}
                   style={{
-                    display: 'block',
-                    width: '100%',
-                    padding: '8px',
-                    marginTop: '5px',
-                  }}
+              flex: '0.7',
+              padding: '8px',
+              maxWidth: '300px',
+              width: '100%',
+            }}
                 >
                   <option value='Foundation'>Foundation</option>
                   <option value='Advanced'>Advanced</option>
                 </select>
-              </label>
+             
             </div>
 
-            <div style={{ marginBottom: '20px' }}>
-              <label>
-                Description:
+            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
+            <label style={{ flex: '0.3', fontWeight: 'bold' }}>Description:</label>
                 <textarea
                   name='description'
                   value={formData.description}
@@ -220,51 +220,55 @@ const filteredUnits = Array.isArray(units)
                   placeholder='Type description'
                   maxLength='500'
                   style={{
-                    display: 'block',
-                    width: '100%',
+                    flex: '0.7',
                     padding: '8px',
-                    marginTop: '5px',
                     resize: 'none',
+                    marginLeft: '20px',
+                    maxWidth: '300px',
+                    width: '100%',
                   }}
                 />
-                <small style={{ display: 'block', textAlign: 'right' }}>
+                <small style={{ display: 'block', textAlign: 'right',marginTop: '-10px' }}>
                   {formData.description.length}/500
                 </small>
-              </label>
             </div>
           </div>
 
           <div style={{ flex: '0.5' }}>
-            <div style={{ marginBottom: '20px' }}>
-              <label>
-                Competency duration:
+            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
+              <label style={{ flex: '0.4', fontWeight: 'bold' }}>Competency duration:</label>
                 <input
                   type='number'
                   name='competencyDuration'
                   value={formData.competencyDuration}
                   onChange={handleInputChange}
                   placeholder='(in weeks)'
+                  min="1"
+                  max="52"
                   style={{
-                    display: 'block',
-                    width: '100%',
+                    flex: '0.6',
                     padding: '8px',
-                    marginTop: '5px',
+                    width: '100%',
                   }}
                 />
-              </label>
-              {errors.competencyDuration && (
-                <p style={{ color: 'red', marginTop: '5px' }}>
+            </div>
+            {errors.competencyDuration && (
+                <p style={{ color: 'red', marginTop: '-5px', marginLeft: '135px' }}>
                   {errors.competencyDuration}
                 </p>
               )}
-            </div>
           </div>
         </div>
         <div>
         </div>
-        <Container>
+        <Container  style={{ marginLeft: '-12px'}}>
           <h5>Add units</h5>
           <p className='text-muted'>Click to select and deselect</p>
+          {errors.selectedUnits && (
+            <p style={{ color: 'red', marginTop: '10px' }}>
+                {errors.selectedUnits}
+            </p>
+            )}
           <Row className='mb-3 align-items-center'>
             <Col md={6}>
               <Form
@@ -309,7 +313,6 @@ const filteredUnits = Array.isArray(units)
             ))}
           </Row>
         </Container>
-
         <br />
                   <button
             type='submit'
