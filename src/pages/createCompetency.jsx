@@ -228,7 +228,7 @@ const filteredUnits = Array.isArray(units)
                     width: '100%',
                   }}
                 />
-                <small style={{ display: 'block', textAlign: 'right',marginTop: '-10px' }}>
+                <small style={{ display: 'block', textAlign: 'right',marginTop: '50px' }}>
                   {formData.description.length}/500
                 </small>
             </div>
