@@ -117,7 +117,11 @@ const CreateCompetency = () => {
       handleReset(); // Reset form on success
     } catch (err) {
       console.error('Error during API call:', err);
-      alert('An error occurred. Please try again.');
+      if (err.response && err.response.status === 409) {
+        alert('Conflict occurred: The competency already exists with the selected units.');
+      } else {
+        alert('An error occurred. Please try again.');
+      }
     }
   };
 
