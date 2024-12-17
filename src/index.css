@@ -17,3 +17,20 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.loader {
+  width: 4rem; /* Size of the loader */
+  height: 4rem;
+  border-radius: 50%;
+  border: 6px solid transparent;
+  border-top-color: currentColor;
+  animation: spin 1s linear infinite;
+  color: #d946ef; /* Base gradient color for smooth transition */
+  background-clip: padding-box;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

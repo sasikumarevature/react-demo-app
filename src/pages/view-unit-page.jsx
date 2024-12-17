@@ -15,7 +15,7 @@ const UnitPage = () => {
   useEffect(() => {
     const fetchUnitData = async () => {
       try {
-        const response = await get(`/nexa/unit/${unitId}`);
+        const response = await get(`/unit/${unitId}`);
         if (response && response.data) {
           setUnitData(response.data);
         }

@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import NavComponent from './components/Navbar/navbar';
 import ViewUnitPage from './pages/view-unit-page';
@@ -15,7 +15,6 @@ function App() {
   return (
     <Router>
       <NavComponent />
-      <Suspense fallback={<div>Loading...</div>}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/competency" element={<Competency />} />
@@ -27,7 +26,6 @@ function App() {
           <Route path="*" element={<Navigate to="/" />} />
           <Route path="/unit/create" element={<CreateUnit />} />
         </Routes>
-      </Suspense>
     </Router>
   );
 }
